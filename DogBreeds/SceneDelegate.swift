@@ -2,7 +2,7 @@
 //  SceneDelegate.swift
 //  DogBreeds
 //
-//  Created by Gurpreet on 03/02/22.
+//  Created by Group1 on 03/02/22.
 //
 
 import UIKit

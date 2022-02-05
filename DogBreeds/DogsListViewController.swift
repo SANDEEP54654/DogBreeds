@@ -36,6 +36,37 @@ class DogsListViewController: UITableViewController {
         request.httpMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
+        
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            if let jsonData = data {
+                
+                let json  = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String:Any]
+                
+                if let allData = json?["message"] as? [String : [String]]{
+                    
+                    self.processData(allData)
+                    
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
+                }
+                
+            } else if let error = error {
+                print("HTTP Request Failed \(error)")
+            }
+        }
+        task.resume()
+
+    }
+    
+    private func processData(_ data: [String : [String]]){
+        
+        self.breeds = data
+        
+        self.breedNames = data.keys.map{ $0 }.sorted()
+        
+        print(self.breedNames)
+        
     }
     
     // MARK: - Table view data source
@@ -49,15 +80,31 @@ class DogsListViewController: UITableViewController {
         // #warning Incomplete implementation, return the number of rows
         return self.breedNames.count
     }
+
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
 
         // Configure the cell...
         
+        //cell.textLabel?.text = self.breedNames[indexPath.row]
+
+        if let lblBreed = cell.viewWithTag(100) as? UILabel{
+            lblBreed.text = "\(self.breedNames[indexPath.row]):"
+        }
+        
+        if let lblSubBreed = cell.viewWithTag(101) as? UILabel{
+            
+            if let subBreeds = self.breeds[self.breedNames[indexPath.row]] {
+                lblSubBreed.text = subBreeds.count > 0 ? subBreeds[0] : ""
+            }
+            
+        }
+        
         return cell
     }
     
+
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
