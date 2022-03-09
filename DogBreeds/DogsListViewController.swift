@@ -59,6 +59,36 @@ class DogsListViewController: UITableViewController {
 
     }
     
+    func fetchRandomImage(_ completion: @escaping(String) -> Void)  {
+        
+        let url = URL(string: "https://dog.ceo/api/breeds/image/random")!
+        
+        var request = URLRequest(url: url)
+
+        request.httpMethod = "GET"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            if let jsonData = data {
+                
+                let json  = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String:Any]
+                
+        
+                if let allData = json?["message"] as? String{
+                    
+                  completion(allData)
+                }
+                
+            } else if let error = error {
+                print("HTTP Request Failed \(error)")
+            }
+        }
+        task.resume()
+    }
+    
+    // MARK:- Data Processing
+    
     private func processData(_ data: [String : [String]]){
         
         self.breeds = data
@@ -100,6 +130,25 @@ class DogsListViewController: UITableViewController {
             }
             
         }
+        
+        if let imageView = cell.viewWithTag(102) as? UIImageView{
+            
+            
+                self.fetchRandomImage { imageURL in
+                   
+                        let url = URL(string: imageURL)!
+
+                            // Fetch Image Data
+                            if let data = try? Data(contentsOf: url) {
+                                // Create Image and Update Image View
+                                DispatchQueue.main.async {
+                                    imageView.image = UIImage(data: data)
+                                    
+                                }
+                            }
+                }
+        }
+        
         
         return cell
     }
