@@ -13,6 +13,8 @@
 		C73D12AE27ABF2B300B43DAE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C73D12AD27ABF2B300B43DAE /* Assets.xcassets */; };
 		C73D12B127ABF2B300B43DAE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C73D12AF27ABF2B300B43DAE /* LaunchScreen.storyboard */; };
 		C73D12B927ABF4B600B43DAE /* DogsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D12B827ABF4B600B43DAE /* DogsListViewController.swift */; };
+		C77A2B5027D9255500DF1226 /* APIHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A2B4F27D9255500DF1226 /* APIHandler.swift */; };
+		C77A2B5227D925F000DF1226 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77A2B5127D925F000DF1226 /* ImageViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		C73D12B027ABF2B300B43DAE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C73D12B227ABF2B300B43DAE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C73D12B827ABF4B600B43DAE /* DogsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogsListViewController.swift; sourceTree = "<group>"; };
+		C77A2B4F27D9255500DF1226 /* APIHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIHandler.swift; sourceTree = "<group>"; };
+		C77A2B5127D925F000DF1226 /* ImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +63,8 @@
 				C73D12A427ABF2B300B43DAE /* AppDelegate.swift */,
 				C73D12A627ABF2B300B43DAE /* SceneDelegate.swift */,
 				C73D12B827ABF4B600B43DAE /* DogsListViewController.swift */,
+				C77A2B4F27D9255500DF1226 /* APIHandler.swift */,
+				C77A2B5127D925F000DF1226 /* ImageViewController.swift */,
 				C73D12AA27ABF2B300B43DAE /* Main.storyboard */,
 				C73D12AD27ABF2B300B43DAE /* Assets.xcassets */,
 				C73D12AF27ABF2B300B43DAE /* LaunchScreen.storyboard */,
@@ -139,7 +145,9 @@
 			files = (
 				C73D12A527ABF2B300B43DAE /* AppDelegate.swift in Sources */,
 				C73D12A727ABF2B300B43DAE /* SceneDelegate.swift in Sources */,
+				C77A2B5227D925F000DF1226 /* ImageViewController.swift in Sources */,
 				C73D12B927ABF4B600B43DAE /* DogsListViewController.swift in Sources */,
+				C77A2B5027D9255500DF1226 /* APIHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

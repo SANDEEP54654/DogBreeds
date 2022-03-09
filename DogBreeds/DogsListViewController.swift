@@ -13,6 +13,8 @@ class DogsListViewController: UITableViewController {
     
     fileprivate var breedNames = [String]()
     
+    var imageData : Data?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -29,7 +31,7 @@ class DogsListViewController: UITableViewController {
     
     private func fetchDogBreeds(){
         
-        let url = URL(string: "https://dog.ceo/api/breeds/list/all")!
+        let url = URL(string: APIManager.shared.baseURL + APIManager.shared.breedList)!
         
         var request = URLRequest(url: url)
 
@@ -59,45 +61,16 @@ class DogsListViewController: UITableViewController {
 
     }
     
-    func fetchRandomImage(_ completion: @escaping(String) -> Void)  {
-        
-        let url = URL(string: "https://dog.ceo/api/breeds/image/random")!
-        
-        var request = URLRequest(url: url)
-
-        request.httpMethod = "GET"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            if let jsonData = data {
-                
-                let json  = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String:Any]
-                
-        
-                if let allData = json?["message"] as? String{
-                    
-                  completion(allData)
-                }
-                
-            } else if let error = error {
-                print("HTTP Request Failed \(error)")
-            }
-        }
-        task.resume()
-    }
-    
-    // MARK:- Data Processing
-    
     private func processData(_ data: [String : [String]]){
         
         self.breeds = data
         
         self.breedNames = data.keys.map{ $0 }.sorted()
         
-        print(self.breedNames)
+        //print(self.breedNames)
         
     }
+    
     
     // MARK: - Table view data source
 
@@ -134,18 +107,14 @@ class DogsListViewController: UITableViewController {
         if let imageView = cell.viewWithTag(102) as? UIImageView{
             
             
-                self.fetchRandomImage { imageURL in
+                APIManager.shared.fetchRandomImage { imageData in
                    
-                        let url = URL(string: imageURL)!
-
-                            // Fetch Image Data
-                            if let data = try? Data(contentsOf: url) {
-                                // Create Image and Update Image View
+                                // Add image from Data
                                 DispatchQueue.main.async {
-                                    imageView.image = UIImage(data: data)
+                                    imageView.image = UIImage(data: imageData)
                                     
                                 }
-                            }
+                           
                 }
         }
         
@@ -153,6 +122,15 @@ class DogsListViewController: UITableViewController {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if let imageView = tableView.cellForRow(at: indexPath)?.viewWithTag(102) as? UIImageView{
+            
+            self.imageData = imageView.image?.pngData()
+        }
+        
+        self.performSegue(withIdentifier: "ImageViewer", sender: nil)
+    }
 
     /*
     // Override to support conditional editing of the table view.
@@ -170,7 +148,7 @@ class DogsListViewController: UITableViewController {
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+        }
     }
     */
 
@@ -189,14 +167,14 @@ class DogsListViewController: UITableViewController {
     }
     */
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        
+        (segue.destination as? ImageViewController)?.imageData = self.imageData
     }
-    */
 
 }
